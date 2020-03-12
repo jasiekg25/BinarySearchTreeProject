@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class BST {
     Node root;
@@ -79,15 +80,20 @@ public class BST {
 
 
     //    Insert
+    public Node insertSortedArray(int[] array, int start, int end){
+        if(start > end) return null;
+        int medium = (start + end) / 2;
+        Node element = new Node(array[medium]);
+
+        element.left = insertSortedArray(array, start, medium -1);
+        element.right = insertSortedArray(array, medium + 1, end);
+
+        return element;
+    }
     public void insertArray(int[] values) {
-        int index = 0;
-        if (this.root == null) {
-            this.root = new Node(values[index]);
-            index++;
-        }
-        for (; index < values.length; index++) {
-            insert(this.root, values[index]);
-        }
+
+        Arrays.sort(values);
+        this.root = insertSortedArray(values, 0, values.length - 1);
     }
 
     public void insert(int value) {
